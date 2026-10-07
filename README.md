@@ -203,17 +203,22 @@ flowchart TD
 sequenceDiagram
     actor User
     participant App as CareerCoach App
-    participant Backend
+    participant Gateway as API Gateway
+    participant Services as Backend Services
     participant AI as AI Model
-    participant DB as Database
+    participant Mongo as MongoDB
+    participant Redis
 
-    User->>App: Submit resume, interview, or roadmap request
-    App->>Backend: Send request
-    Backend->>AI: Request analysis or generated content
-    AI-->>Backend: Return result
-    Backend->>DB: Save result
-    Backend-->>App: Send result
-    App-->>User: Display feedback, questions, or roadmap
+    User->>App: Request resume analysis, interview, or roadmap
+    App->>Gateway: Send request
+    Gateway->>Services: Route request to the right service
+    Services->>Redis: Check or update cached data
+    Services->>AI: Request analysis or generated content
+    AI-->>Services: Return result
+    Services->>Mongo: Save result and history
+    Services-->>Gateway: Return result
+    Gateway-->>App: Send response
+    App-->>User: Display result
 ```
 
 ## 13. Agentic Workflow (if applicable)
