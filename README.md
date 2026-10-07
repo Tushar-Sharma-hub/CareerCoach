@@ -201,22 +201,42 @@ flowchart TD
 
 ```mermaid
 sequenceDiagram
-    participant U as User
-    participant F as Frontend
-    participant G as Gateway
-    participant S as Services
-    participant A as AI Agent
-    participant DB as MongoDB/Redis
+    actor User
+    participant UI as Web App
+    participant Auth as Firebase Auth
+    participant API as API Gateway
+    participant Service as Selected Service
+    participant Parser as PDF Parser
+    participant Workflow as LangChain / LangGraph
+    participant LLM as openai/gpt-oss-120b
+    participant Redis
+    participant Mongo as MongoDB
 
-    U->>F: Upload resume / start interview / generate roadmap
-    F->>G: API request with user context
-    G->>S: Route to correct microservice
-    S->>A: Send resume/interview/roadmap prompt
-    A-->>S: Structured analysis, questions, feedback, or roadmap
-    S->>DB: Store records + cache response
-    DB-->>S: Persisted data
-    S-->>F: JSON response with results
-    F-->>U: Dashboard / report / interview view
+    User->>UI: Sign in
+    UI->>Auth: Authenticate
+    Auth-->>UI: Authentication state
+    User->>UI: Submit resume, interview, or roadmap request
+    UI->>API: Send request and user context
+    API->>Service: Route request to the relevant service
+
+    alt Resume analysis
+        Service->>Parser: Extract text from uploaded PDF
+        Parser-->>Service: Parsed resume text
+        Service->>Workflow: Request resume analysis
+    else Interview practice
+        Service->>Workflow: Request questions or answer feedback
+    else Learning roadmap
+        Service->>Workflow: Request roadmap for role and package goal
+    end
+
+    Workflow->>LLM: Send task prompt and relevant context
+    LLM-->>Workflow: Return generated content
+    Workflow-->>Service: Return structured result
+    Service->>Mongo: Save result and user history
+    Service->>Redis: Cache recent result or context
+    Service-->>API: Return result as JSON
+    API-->>UI: Send response
+    UI-->>User: Display analysis, feedback, or roadmap
 ```
 
 ## 13. Agentic Workflow (if applicable)
@@ -248,7 +268,7 @@ The project follows a multi-agent workflow pattern where each AI agent is respon
 | Routing & UI | React Router, Framer Motion |
 | Backend API | Node.js, Express |
 | AI Orchestration | LangChain, LangGraph |
-| LLM | Llama 3.3 70B via Groq |
+| LLM | openai/gpt-oss-120b |
 | Database | MongoDB |
 | Caching | Redis |
 | Authentication | Firebase Auth |
@@ -343,7 +363,7 @@ The project depends on and integrates the following open-source tools and librar
 - Redis
 - LangChain
 - LangGraph
-- Llama 3.3 70B (open-weight model)
+- openai/gpt-oss-120b (open-weight model)
 - Firebase Admin / Firebase Auth
 - Tailwind CSS
 - Docker
