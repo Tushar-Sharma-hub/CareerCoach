@@ -1,6 +1,6 @@
 # CareerCoach
 
-AI-powered interview preparation and career readiness platform for freshers.
+From uncertainty to job-ready confidence, driven by AI.
 
 ## 1. Project Name
 
@@ -20,7 +20,7 @@ Most existing tools are either generic, expensive, or not tailored to Indian fre
 
 ## 3. Project Overview
 
-CareerCoach is a multi-agent AI platform designed to help freshers prepare for jobs by combining resume intelligence, role-based mock interviews, real-time scoring, and personalized learning roadmaps. The system aims to give users a guided career prep workflow that feels like a personal interview coach, technical mentor, and roadmap planner in one place.
+CareerCoach is a multi-agent AI platform designed to help freshers prepare for jobs by combining ATS-friendly resume creation, resume analysis, role-based mock interviews, real-time scoring, and personalized learning roadmaps. Users can provide their information to build a tailored resume and download it as a PDF. The system aims to give users a guided career prep workflow that feels like a personal interview coach, technical mentor, and roadmap planner in one place.
 
 The project focuses on creating a practical AI-assisted ecosystem for job preparation rather than a static chatbot. It combines multiple AI-driven services to analyze resume quality, simulate interviews, evaluate responses, and recommend a clear path toward role-specific improvement.
 
@@ -28,6 +28,7 @@ The project focuses on creating a practical AI-assisted ecosystem for job prepar
 
 CareerCoach introduces an AI-powered preparation stack that helps users:
 
+- Provide their information to create an ATS-friendly resume and download it as a PDF
 - Upload and analyze resumes using AI-based extraction and evaluation
 - Choose interview types such as HR and technical interviews
 - Practice interviews with dynamic AI-generated questions
@@ -174,6 +175,7 @@ flowchart TD
 
 ### Resume Service
 
+- Creates ATS-friendly resumes from user-provided information and provides PDF download
 - Accepts uploaded resume PDFs
 - Extracts text from PDF files
 - Sends parsed resume content to the AI model
@@ -209,7 +211,7 @@ sequenceDiagram
     participant Mongo as MongoDB
     participant Redis
 
-    User->>App: Request resume analysis, interview, or roadmap
+    User->>App: Request resume creation or analysis, interview, or roadmap
     App->>Gateway: Send request
     Gateway->>Services: Route request to the right service
     Services->>Redis: Check or update cached data
@@ -218,10 +220,10 @@ sequenceDiagram
     Services->>Mongo: Save result and history
     Services-->>Gateway: Return result
     Gateway-->>App: Send response
-    App-->>User: Display result
+    App-->>User: Display result or download resume as PDF
 ```
 
-## 13. Agentic Workflow (if applicable)
+## 13. Agentic Workflow
 
 The project follows a multi-agent workflow pattern where each AI agent is responsible for a dedicated part of the journey.
 
@@ -283,8 +285,8 @@ The project will be implemented in a modular microservice style to keep the syst
 
 ### Phase 2: Resume Intelligence
 
-- Add uploaded PDF support
-- Extract text and pass to AI model
+- Collect user information to create ATS-friendly resumes with PDF export
+- Add uploaded PDF support, extract text, and pass it to the AI model
 - Save resume metadata and recommendations
 
 ### Phase 3: Interview Engine
@@ -308,6 +310,7 @@ The project will be implemented in a modular microservice style to keep the syst
 The final implementation is expected to deliver:
 
 - a web application where users can log in and manage career prep sessions
+- ATS-friendly resumes generated from user information and downloadable as PDFs
 - AI-driven mock interviews for freshers
 - detailed custom feedback and summary reports
 - resume analysis and skill suggestions
