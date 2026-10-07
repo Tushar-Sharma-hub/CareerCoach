@@ -68,7 +68,7 @@ The project aims to achieve the following goals:
 
 The project uses the following open-source AI ecosystem and supporting technologies:
 
-- Llama 3.3 70B (open-weight LLM used via Groq inference infrastructure)
+- openai/gpt-oss-120b (open-weight reasoning model used for interview coaching, evaluation, and roadmap generation)
 - LangChain for prompting and LLM orchestration
 - LangGraph for multi-step agent workflows and graph-based execution
 - Redis for fast caching and session optimization
@@ -79,7 +79,7 @@ This combination allows the project to build a real AI agent-based interview sys
 
 ## 8. Why This Technology Was Selected
 
-### Llama 3.3 70B
+### openai/gpt-oss-120b
 
 This model was selected because it is strong at reasoning, instruction following, and structured output generation, which is critical for:
 
