@@ -202,41 +202,18 @@ flowchart TD
 ```mermaid
 sequenceDiagram
     actor User
-    participant UI as Web App
-    participant Auth as Firebase Auth
-    participant API as API Gateway
-    participant Service as Selected Service
-    participant Parser as PDF Parser
-    participant Workflow as LangChain / LangGraph
-    participant LLM as openai/gpt-oss-120b
-    participant Redis
-    participant Mongo as MongoDB
+    participant App as CareerCoach App
+    participant Backend
+    participant AI as AI Model
+    participant DB as Database
 
-    User->>UI: Sign in
-    UI->>Auth: Authenticate
-    Auth-->>UI: Authentication state
-    User->>UI: Submit resume, interview, or roadmap request
-    UI->>API: Send request and user context
-    API->>Service: Route request to the relevant service
-
-    alt Resume analysis
-        Service->>Parser: Extract text from uploaded PDF
-        Parser-->>Service: Parsed resume text
-        Service->>Workflow: Request resume analysis
-    else Interview practice
-        Service->>Workflow: Request questions or answer feedback
-    else Learning roadmap
-        Service->>Workflow: Request roadmap for role and package goal
-    end
-
-    Workflow->>LLM: Send task prompt and relevant context
-    LLM-->>Workflow: Return generated content
-    Workflow-->>Service: Return structured result
-    Service->>Mongo: Save result and user history
-    Service->>Redis: Cache recent result or context
-    Service-->>API: Return result as JSON
-    API-->>UI: Send response
-    UI-->>User: Display analysis, feedback, or roadmap
+    User->>App: Submit resume, interview, or roadmap request
+    App->>Backend: Send request
+    Backend->>AI: Request analysis or generated content
+    AI-->>Backend: Return result
+    Backend->>DB: Save result
+    Backend-->>App: Send result
+    App-->>User: Display feedback, questions, or roadmap
 ```
 
 ## 13. Agentic Workflow (if applicable)
